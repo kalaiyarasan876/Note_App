@@ -4,7 +4,6 @@ const jwt = require("jsonwebtoken")
 
 
 const register = async (req, res) => {
-    // console.log(req.body);
 
     try {
 
@@ -15,6 +14,16 @@ const register = async (req, res) => {
 
         if (!username || !password || !email || !contact) {
             return res.status(400).json({ message: "All Field is Required" })
+        }
+
+        const gmailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+        if (!gmailRegex.test(email)) {
+            return res.status(400).json({ message: "Only valid Gmail addresses are allowed" });
+        }
+
+        const phoneRegex = /^[0-9]{10}$/;
+        if (!phoneRegex.test(contact)) {
+            return res.status(400).json({ message: "Phone number must be 10 digits" });
         }
 
         const [existingUser] = await db.query("SELECT * FROM users where username=? or email=?", [username, email]);
@@ -43,6 +52,7 @@ const login = async (req, res) => {
     try {
 
         const { username, password } = req.body;
+        
         if (!username || !password) {
             return res.status(400).json({ message: "All Field is Required" })
         }
@@ -104,26 +114,36 @@ const getCurrentUser = async (req, res) => {
 
 
 const uploadProfileImage = async (req, res) => {
+    
     try {
-         const userId = req.user.id;
-           const profile_image = req.file ? `/uploads/${req.file.filename}` : null
+        const userId = req.user.id;
+        const profile_image = req.file ? `uploads/${req.file.filename}` : null
+        
 
-       const [result] = await db.query("UPDATE users set profile_image=? WHERE id=?", [profile_image, userId]);
+        const [result] = await db.query("UPDATE users set profile_image=? WHERE id=?", [profile_image, userId]);
 
         if (result.affectedRows === 0) {
             return res.status(400).json({ message: "User Not Found" })
         }
 
         res.status(200).json({ message: "Profile Image Updated Successfully" })
-        
-    } catch (error) {       
+
+    } catch (error) {
         res.status(500).json({ message: "Server Error", error: error.message })
     }
 }
 
 
 
+const logout = async(req, res)=>{
+    try {
+        res.clearCookies("token")
+        res.status(200).json({message:"Logout Successfully"})
+        
+    } catch (error) {
+         res.status(500).json({ message: "Server Error", error: error.message })
+    }
+}
 
 
-
-module.exports = { register, login, getCurrentUser, uploadProfileImage };
+module.exports = { register, login, getCurrentUser, uploadProfileImage, logout };

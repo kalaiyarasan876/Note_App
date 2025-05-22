@@ -2,9 +2,26 @@ const express = require("express");
 require("dotenv").config();
 // const db = require("./db");
 var cookieParser = require('cookie-parser')
-const app = express();
 const authRoutes = require("./routes/authRoutes");
 const notesRoutes = require("./routes/notesRoutes");
+const app = express();
+const cors = require("cors");
+const path = require ('path');
+
+
+app.use('/uploads', express.static(path.join(__dirname, './uploads')));
+
+
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true  // Allow credentials (cookies, authorization headers, etc.)
+}));
+
+app.get('/', (req, res) => {
+  res.send('Welcome to my Note App!');
+});
+
+app.use(express.json())
 
 //middleware
 app.use(express.json());
