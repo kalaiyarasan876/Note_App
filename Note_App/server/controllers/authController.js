@@ -1,5 +1,6 @@
 const db = require("../db");
 const bcrypt = require("bcryptjs");
+const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken")
 
 
@@ -52,7 +53,7 @@ const login = async (req, res) => {
     try {
 
         const { username, password } = req.body;
-        
+
         if (!username || !password) {
             return res.status(400).json({ message: "All Field is Required" })
         }
@@ -75,11 +76,13 @@ const login = async (req, res) => {
         const token = jwt.sign({ id: user[0].id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
         //console.log(token);
 
-        res.cookie("token", token, {
+        res.status(201).cookie("token", token, {
             httpOnly: true,
             expires: new Date(Date.now() + process.env.COOKIES_EXPIRES * 24 * 60 * 60 * 1000),
+            secure: true
         })
 
+        
         res.status(200).json({ message: "Login Successfully", user: user[0] })
 
     } catch (error) {
@@ -114,11 +117,11 @@ const getCurrentUser = async (req, res) => {
 
 
 const uploadProfileImage = async (req, res) => {
-    
+
     try {
         const userId = req.user.id;
         const profile_image = req.file ? `uploads/${req.file.filename}` : null
-        
+
 
         const [result] = await db.query("UPDATE users set profile_image=? WHERE id=?", [profile_image, userId]);
 
@@ -135,13 +138,13 @@ const uploadProfileImage = async (req, res) => {
 
 
 
-const logout = async(req, res)=>{
+const logout = async (req, res) => {
     try {
         res.clearCookie("token")
-        res.status(200).json({message:"Logout Successfully"})
-        
+        res.status(200).json({ message: "Logout Successfully" })
+
     } catch (error) {
-         res.status(500).json({ message: "Server Error", error: error.message })
+        res.status(500).json({ message: "Server Error", error: error.message })
     }
 }
 
