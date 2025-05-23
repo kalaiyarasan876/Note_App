@@ -98,7 +98,6 @@ nav .logo {
   margin-top: 50px;
 }
 
-
 .form-card {
   max-width: 400px;
   width: 100%;
@@ -155,7 +154,7 @@ nav .logo {
   text-decoration: underline;
 }
 
-.form-group p{
+.form-group p {
   text-align: center;
   margin-top: 1rem;
 }
@@ -266,12 +265,11 @@ nav .logo {
   margin-top: 2rem;
 }
 
-
-.note-buttons{
+.note-buttons {
   margin-top: 1rem;
 }
 
-.edit-button{
+.edit-button {
   background-color: #ff8800;
   color: #fff;
   border: none;
@@ -280,7 +278,6 @@ nav .logo {
   cursor: pointer;
   margin-right: 1rem;
 }
-
 
 .delete-button {
   background-color: #ff0000;
@@ -295,4 +292,14 @@ nav .logo {
   color: red;
   margin-bottom: 1rem;
   text-align: center;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #068fff;
+  color: #ffffff;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
 }

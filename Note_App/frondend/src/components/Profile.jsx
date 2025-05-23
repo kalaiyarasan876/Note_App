@@ -10,16 +10,15 @@ const Profile = () => {
   const [error, setError] = useState(false);
   const [profileImage, setProfileImage] = useState(null);
 
-  console.log("user", user, );
-  console.log("profileImage", profileImage);
-  
-  
+  // console.log("user", user, );
+  // console.log("profileImage", profileImage);
+
+
 
   const fetchUser = async () => {
     try {
       const response = await axios.get("http://localhost:8000/api/auth/me", { withCredentials: true });
-    // console.log(response.data);
-
+      // console.log(response.data);
       setUser(response.data);
     } catch (error) {
       console.log(error);
@@ -28,7 +27,7 @@ const Profile = () => {
   }
 
   //console.log("user", user?.profile_image);
-  
+
 
   const handleUploadImage = async (e) => {
     e.preventDefault();
@@ -39,10 +38,10 @@ const Profile = () => {
         headers: { "Content-Type": "multipart/form-data" },
         withCredentials: true
       })
-fetchUser();
+      fetchUser();
       setUser({ ...user, profile_image: response.data.profile_image });
       setError(false);
-     // console.log(response.data);
+      // console.log(response.data);
       setProfileImage(null);
 
     } catch (error) {
@@ -83,10 +82,10 @@ fetchUser();
               {user.contact || "N/A"}
             </p>
 
-            
+
             {user.profile_image && <img src={`http://localhost:8000/${user?.profile_image}`} alt="profile" className='profile-img' />}
-            
-  
+
+
 
             <p><input type="file" accept='image/*' onChange={(e) => setProfileImage(e.target.files[0])} /></p>
 

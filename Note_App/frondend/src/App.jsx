@@ -9,17 +9,18 @@ import { AuthContext } from "./context/AuthContext";
 import "./App.css";
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import ProtectRoute from './utils/ProtectRoute';
+import Footer from './components/Footer';
 
 
 const App = () => {
   const { user, loading } = useContext(AuthContext);
 
-  if(loading){
+  if (loading) {
     return <div>Loading...</div>
   }
 
-  
-  
+
+
   return (
     <>
       <BrowserRouter>
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/profile" element={<ProtectRoute> <Profile /></ProtectRoute>} />
           <Route path="/dashboard" element={<ProtectRoute><Dashboard /></ProtectRoute>} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </>
   )

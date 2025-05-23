@@ -137,7 +137,7 @@ const uploadProfileImage = async (req, res) => {
 
 const logout = async(req, res)=>{
     try {
-        res.clearCookies("token")
+        res.clearCookie("token")
         res.status(200).json({message:"Logout Successfully"})
         
     } catch (error) {
