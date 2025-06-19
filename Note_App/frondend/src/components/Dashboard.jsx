@@ -110,7 +110,7 @@ const Dashboard = () => {
             <div className="dashboard-notes" key={note.note_id}>
               <div className="note-card">
                 <h3>{note.note}</h3>
-                <p>{note.date}</p>
+                <p>{note.date ? new Date(note.date).toISOString().split("T")[0] : ""}</p>
                 <div className="note-buttons">
                   <button className='edit-button' onClick={() => handleEditNote(note)} >Edit</button>
                   <button className='delete-button' onClick={() => handleDeleteNote(note.note_id)}>Delete</button>
